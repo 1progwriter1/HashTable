@@ -2,7 +2,7 @@
 #define LIST_FUNCTIONS
 
 #include <stdio.h>
-#include "../MyLibraries/headers/systemdata.h"
+#include "../../MyLibraries/headers/systemdata.h"
 
 const size_t LIST_INIT_SIZE = 64;
 const size_t RESIZE_COEFF = 2;
@@ -25,6 +25,6 @@ struct ListsArrays {
 int listsArraysCtor(ListsArrays *arrays);
 void listsArraysDtor(ListsArrays *arrays);
 
-int listStrInsert(ListStr *lst, char *str, ListsArrays *arrays);
+int listStrInsertAfter(ListStr *lst, char *str, size_t index, ListsArrays *arrays);
 
 #endif
