@@ -1,1 +1,3 @@
-# HashTable
+# The best hash table in your life
+
+### P. S. coming soon...
