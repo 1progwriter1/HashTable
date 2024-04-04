@@ -8,6 +8,9 @@ const size_t LIST_INIT_SIZE = 64;
 const size_t RESIZE_COEFF = 2;
 
 struct ListStr {
+    size_t size;
+    size_t head;
+    size_t tail;
 };
 
 struct ListsArrays {
@@ -19,8 +22,9 @@ struct ListsArrays {
     size_t free;
 };
 
-int ListsArraysCtor(ListsArrays *arrays);
-void ListsArraysDtor(ListsArrays *arrays);
+int listsArraysCtor(ListsArrays *arrays);
+void listsArraysDtor(ListsArrays *arrays);
 
+int listStrInsert(ListStr *lst, char *str, ListsArrays *arrays);
 
 #endif

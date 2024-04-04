@@ -1,11 +1,11 @@
 #include <stdio.h>
 #include <assert.h>
-#include "../headers/string_list.h"
+#include "string_list.h"
 
-static int ListsArraysVerify(ListsArrays *arrays);
-static int ListsArraysResizeUp(ListsArrays *arrays);
+static int listsArraysVerify(ListsArrays *arrays);
+static int listsArraysResizeUp(ListsArrays *arrays);
 
-int ListsArraysCtor(ListsArrays *arrays) {
+int listsArraysCtor(ListsArrays *arrays) {
 
     assert(arrays);
 
@@ -43,7 +43,24 @@ int ListsArraysCtor(ListsArrays *arrays) {
     return SUCCESS;
 }
 
-void ListsArraysDtor(ListsArrays *arrays) {
+int listStrInsertAfter(ListStr *lst, char *str, size_t index, ListsArrays *arrays) {
+
+    assert(lst);
+    assert(str);
+    assert(arrays);
+
+    if (listsArraysVerify(arrays) != SUCCESS)
+        return ERROR;
+
+    size_t free_index = arrays->free;
+    arrays->free = arrays->next[free_index];
+    arrays->next[index] = arrays->next[index];
+    arrays->prev[index] = index;
+    arrays->next[index] = free_index;
+
+}
+
+void listsArraysDtor(ListsArrays *arrays) {
 
     assert(arrays);
 
@@ -60,11 +77,11 @@ void ListsArraysDtor(ListsArrays *arrays) {
     arrays->free = 0;
 }
 
-static int ListsArraysResizeUp(ListsArrays *arrays) {
+static int listsArraysResizeUp(ListsArrays *arrays) {
 
     assert(arrays);
 
-    if (ListsArraysVerify(arrays) != SUCCESS)
+    if (listsArraysVerify(arrays) != SUCCESS)
         return ERROR;
 
     arrays->size *= RESIZE_COEFF;
@@ -83,7 +100,7 @@ static int ListsArraysResizeUp(ListsArrays *arrays) {
     return SUCCESS;
 }
 
-static int ListsArraysVerify(ListsArrays *arrays) {
+static int listsArraysVerify(ListsArrays *arrays) {
 
     assert(arrays);
 
