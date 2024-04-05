@@ -121,6 +121,7 @@ static int listsArraysResizeUp(ListsArrays *arrays) {
 
     arrays->free = old_size;
     arrays->next[arrays->size - 1] = 0;
+    arrays->data[arrays->size - 1] = NULL;
 
     for (size_t i = old_size; i < arrays->size - 1; i++) {
         arrays->data[i] = NULL;
