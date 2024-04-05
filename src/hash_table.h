@@ -6,11 +6,18 @@
 
 const size_t HASH_TABLE_INIT_SIZE = 101;
 
-struct HashTable {
+struct HashTableStr {
     size_t (*hash_func)();
-    size_t size;
     ListsArrays arrays;
     ListStr *lists;
+    size_t size;
+    size_t num_of_elements;
 };
+
+int hashTableStrCtor(HashTableStr *table);
+void hashTableStrDtor(HashTableStr *table);
+
+int hashTableStrInsert(HashTableStr *table, char *str);
+bool isInserted(char *str, ListStr *lst, ListsArrays *arrays);
 
 #endif
