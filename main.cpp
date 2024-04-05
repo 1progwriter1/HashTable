@@ -1,25 +1,32 @@
 #include <stdio.h>
+#include <assert.h>
 #include "src/string_list.h"
 #include "../MyLibraries/headers/systemdata.h"
+#include "src/measure.h"
+#include "src/hash_table.h"
 
-int main() {
+int main(const int argc, const char *argv[]) {
 
-    ListsArrays arrays = {};
-    if (listsArraysCtor(&arrays) != SUCCESS)
+    assert(argv);
+
+    if (argc < 3)   return ERROR;
+
+    int mode = (int) *argv[1] - '0';
+    if (mode > MyDjb2 || mode < ZeroHash)   return ERROR;
+    const char *file = argv[2];
+
+
+    size_t (*hash_functions[NUMBER_OF_HASH_FUNC])(char *, size_t) =
+    {
+    hashFuncZero, hashFuncLetterASCII, hashFuncLength, hashFuncSumASCII, hashFuncCycleShiftLeft, hashFuncCycleShiftRight, hashFuncDjb2
+    };
+
+    HashTableStr table = {};
+    if (hashTableStrCtor(&table, hash_functions[mode]) != SUCCESS)
         return ERROR;
 
-    char str[] = "hello world";
+    if (measureHashTable(&table, file) != SUCCESS)
+        return ERROR;
 
-    ListStr lst = {};
-    for (size_t i = 0; i < 100; i++)
-        if (listStrInsertAfter(&lst, str, lst.tail, &arrays) != SUCCESS)
-            return ERROR;
-
-    for (size_t i = 0; i < arrays.size; i++) {
-        if (!arrays.data[i])
-            fprintf(stderr, "%3lu) NULL\n", i);
-        else
-            fprintf(stderr, "%3lu) %s (%lu %lu)\n", i, arrays.data[i], arrays.free, arrays.prev[i]);
-    }
     return SUCCESS;
 }

@@ -2,13 +2,22 @@ CFLAFS=-fsanitize=address,alignment -D _DEBUG -ggdb3 -std=c++17 -O0 -Wall -Wextr
 
 COMP=g++
 
-LIB_OBJ=$(wildcard src/*.o)
+LIB_OBJ=$(wildcard lib/*.o)
+SRC=$(wildcard src/*.cpp)
+SRC_OBJ=$(wildcard src/*.o)
+OBJECTS=$(wildcard *.o)
 
 %.o : %.cpp
 	$(COMP) $(CFLAFS) -c $< -o $@
 
 %.out : %.o
 	$(COMP) $(CFLAFS) $< $(LIB_OBJ) -o $@
+
+all:
+	$(COMP) $(CFLAFS) -c $(SRC) main.cpp
+	mv $(OBJECTS) src/
+	$(COMP) $(CFLAFS) $(SRC_OBJ) $(LIB_OBJ)
+	rm *.o
 
 clean:
 	rm *.out

@@ -4,20 +4,32 @@
 #include <stdio.h>
 #include "string_list.h"
 
-const size_t HASH_TABLE_INIT_SIZE = 101;
+const size_t HASH_TABLE_SIZE = 1001;
+const size_t NUMBER_OF_HASH_FUNC = 7;
 
 struct HashTableStr {
-    size_t (*hash_func)();
+    size_t (*hashFunc)(char *, size_t);
     ListsArrays arrays;
     ListStr *lists;
     size_t size;
     size_t num_of_elements;
 };
 
-int hashTableStrCtor(HashTableStr *table);
+int hashTableStrCtor(HashTableStr *table, size_t (*hashFunc)(char *, size_t));
 void hashTableStrDtor(HashTableStr *table);
 
 int hashTableStrInsert(HashTableStr *table, char *str);
 bool isInserted(char *str, ListStr *lst, ListsArrays *arrays);
+
+size_t hashFuncZero(char *str, size_t size);
+size_t hashFuncLetterASCII(char *str, size_t size);
+size_t hashFuncLength(char *str, size_t size);
+size_t hashFuncSumASCII(char *str, size_t size);
+size_t hashFuncCycleShiftRight(char *str, size_t size);
+size_t hashFuncCycleShiftLeft(char *str, size_t size);
+size_t hashFuncDjb2(char *str, size_t size);
+
+size_t myCycleShiftLeft(size_t num);
+size_t myCycleShiftRight(size_t num);
 
 #endif
