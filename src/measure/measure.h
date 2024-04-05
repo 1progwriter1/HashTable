@@ -2,7 +2,7 @@
 #define MEASURE_FUNCTIONS
 
 #include <stdio.h>
-#include "hash_table.h"
+#include "../hash_table/hash_table.h"
 
 #define SRC_FILE "clean_text.txt"
 

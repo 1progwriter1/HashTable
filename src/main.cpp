@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <assert.h>
-#include "src/string_list.h"
-#include "../MyLibraries/headers/systemdata.h"
-#include "src/measure.h"
-#include "src/hash_table.h"
+#include "hash_table/string_list.h"
+#include "../../MyLibraries/headers/systemdata.h"
+#include "measure/measure.h"
+#include "hash_table/hash_table.h"
 
 int main(const int argc, const char *argv[]) {
 

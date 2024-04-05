@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <assert.h>
 #include "measure.h"
-#include "../../MyLibraries/headers/systemdata.h"
+#include "../../../MyLibraries/headers/systemdata.h"
 #include "hash_table.h"
-#include "../../MyLibraries/headers/file_func.h"
+#include "../../../MyLibraries/headers/file_func.h"
 
 int measureHashTable(HashTableStr *table, const char *filename) {
 

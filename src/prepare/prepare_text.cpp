@@ -2,14 +2,14 @@
 #include <assert.h>
 #include <ctype.h>
 #include <string.h>
-#include "../MyLibraries/headers/file_func.h"
-#include "../MyLibraries/headers/systemdata.h"
+#include "../../MyLibraries/headers/file_func.h"
+#include "../../MyLibraries/headers/systemdata.h"
 
-#define WIGHT_FANG "wight_fang.txt"
-#define PREPARED_TEXT "clean_text.txt"
+#define WIGHT_FANG "text/wight_fang.txt"
+#define PREPARED_TEXT "text/clean_text.txt"
 
 const size_t MAX_WORD_LEN = 128;
-const size_t MAX_NUMBER_OF_WORDS = 20000;
+const size_t MAX_NUMBER_OF_WORDS = 40000;
 
 int PrepareText(const char *src_file, const char *dst_file);
 void cleanWord(char *word, size_t *length);
@@ -50,7 +50,7 @@ int PrepareText(const char *src_file, const char *dst_file) {
         number_of_words += 1;
     }
 
-    fclose(dst);
+    fileclose(dst);
     free(buf);
 
     return SUCCESS;
