@@ -160,7 +160,9 @@
         "locale": "cpp",
         "ratio": "cpp",
         "cmath": "cpp",
-        "cstring": "cpp"
+        "cstring": "cpp",
+        "bitset": "cpp",
+        "initializer_list": "cpp"
     },
     // Whether git is enabled.
     "git.enabled": true,

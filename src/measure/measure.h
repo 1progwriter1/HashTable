@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "../hash_table/hash_table.h"
 
-#define SRC_FILE "clean_text.txt"
+#define SRC_FILE "text/clean_text.txt"
 
 const size_t MAX_WORD_LEN = 128;
 

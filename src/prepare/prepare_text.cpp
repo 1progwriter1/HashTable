@@ -2,8 +2,8 @@
 #include <assert.h>
 #include <ctype.h>
 #include <string.h>
-#include "../../MyLibraries/headers/file_func.h"
-#include "../../MyLibraries/headers/systemdata.h"
+#include "../../../MyLibraries/headers/file_func.h"
+#include "../../../MyLibraries/headers/systemdata.h"
 
 #define WIGHT_FANG "text/wight_fang.txt"
 #define PREPARED_TEXT "text/clean_text.txt"
@@ -63,13 +63,15 @@ void cleanWord(char *word, size_t *length) {
 
     char tmp[MAX_WORD_LEN] = "";
     size_t index = 0;
+    size_t tmp_length = 0;
 
     for (size_t i = 0; word[i] != '\0'; i++) {
-        if (ispunct((unsigned char) word[i])) continue;
+        if (!isalpha(word[i])) continue;
         tmp[index++] = word[i];
-        *length += 1;
+        tmp_length += 1;
     }
     tmp[index] = '\0';
 
-    memcpy(word, tmp, *length + 1);
+    if (tmp_length != 0)   memcpy(word, tmp, tmp_length + 1);
+    *length = tmp_length;
 }

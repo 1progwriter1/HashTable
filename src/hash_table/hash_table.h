@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "string_list.h"
 
-const size_t HASH_TABLE_SIZE = 1001;
+const size_t HASH_TABLE_SIZE = 2003;
 const size_t NUMBER_OF_HASH_FUNC = 7;
 
 struct HashTableStr {

@@ -11,8 +11,8 @@ int main(const int argc, const char *argv[]) {
 
     if (argc < 3)   return ERROR;
 
-    int mode = (int) *argv[1] - '0';
-    if (mode > MyDjb2 || mode < ZeroHash)   return ERROR;
+    int mode = (int) *argv[1] - '0' - 1;
+    if (mode > MyDjb2 + 1 || mode < ZeroHash + 1)   return ERROR;
     const char *file = argv[2];
 
 

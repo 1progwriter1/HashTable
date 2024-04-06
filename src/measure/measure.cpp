@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <assert.h>
-#include "measure.h"
+#include "../measure/measure.h"
 #include "../../../MyLibraries/headers/systemdata.h"
-#include "hash_table.h"
+#include "../hash_table/hash_table.h"
 #include "../../../MyLibraries/headers/file_func.h"
 
 int measureHashTable(HashTableStr *table, const char *filename) {
@@ -26,9 +26,9 @@ int measureHashTable(HashTableStr *table, const char *filename) {
     FILE *fn = fopen(filename, WRITE);
     if (!fn) return FILE_OPEN_ERROR;
 
-    fprintf(fn, "x y\n");
+    fprintf(fn, "index,size\n");
     for (size_t i = 0; i < table->size; i++)
-        fprintf(fn, "%lu %lu\n", i, table->lists[i].size);
+        fprintf(fn, "%lu, %lu\n", i, table->lists[i].size);
 
     free(buf);
     fclose(fn);

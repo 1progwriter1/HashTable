@@ -3,25 +3,28 @@ CFLAFS=-fsanitize=address,alignment -D _DEBUG -ggdb3 -std=c++17 -O0 -Wall -Wextr
 COMP=g++
 
 LIB_OBJ=$(wildcard lib/*.o)
-SRC=$(wildcard src/hash_table/*.cpp)
-SRC_OBJ=$(wildcard src/*.o)
-OBJECTS=$(wildcard *.o)
+
+HASH_TABLE_SRC=$(wildcard src/hash_table/*.cpp)
+MEASURE_SRC=$(wildcard src/measure/*.cpp)
+
+HASH_TABLE_OBJ=$(wildcard src/hash_table/*.o)
+MEASURE_OBJ=$(wildcard src/measure/*.o)
+
+OBJ=$(wildcard *.o)
 
 %.o : %.cpp
 	$(COMP) $(CFLAFS) -c $< -o $@
 
 %.out : %.o
 	$(COMP) $(CFLAFS) $< $(LIB_OBJ) -o $@
-	mv $@ ../HashTable
+	mv *.out ../../
 
 all:
-	$(COMP) $(CFLAFS) -c $(SRC)
-	$(COMP) $(CFLAFS) $(SRC_OBJ) $(LIB_OBJ)
-	rm src/*.o
-	mv *.out ../HashTable
+	$(COMP) $(CFLAFS) -c $(HASH_TABLE_SRC) $(MEASURE_SRC) src/main.cpp
+	$(COMP) $(CFLAFS) $(OBJ) $(LIB_OBJ)
 
 clean:
 	rm *.out
 
-clean_o:
-	rm src/*.o
+clean_obj:
+	rm *.o
