@@ -172,10 +172,10 @@ size_t hashFuncDjb2(char *str, size_t size) {
 
  **Оптимизация**
 
-<figure>
-<figcaption>Исходный код</figcaption>
-<img src="Images/godbolt/src_sizeof_O0.png">
-</figure>
+*Исходный код:*
+```C
+    return (num >> sizeof(size_t) - 1) | (num << 1)
+```
 
 <figure>
 <figcaption>Полученный код код</figcaption>
