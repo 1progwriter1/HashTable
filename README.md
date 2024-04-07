@@ -37,6 +37,8 @@ size_t hashFuncZero(char *str, size_t size) {
 <img src="Images/charts/hash_func_1.png">
 </figure>
 
+**Все слова, как и ожидалось, попали в список под индексом 0.**
+
 ### 2) Хеш-функция, возвращающая ASCII код первого символа
 
 ```C
@@ -52,6 +54,8 @@ size_t hashFuncLetterASCII(char *str, size_t size) {
 <img src="Images/charts/hash_func_2.png">
 </figure>
 
+**Все слова находятся в диапазоне [0;255]**
+
 ### 3) Хэш-функция, возвращающая длину слова
 
 ```C
@@ -66,6 +70,8 @@ size_t hashFuncLength(char *str, size_t size) {
 <figure>
 <img src="Images/charts/hash_func_3.png">
 </figure>
+
+**Большое количеств артиклей и коротких слов привело к большому числу коллизий**
 
 ### 4) Хеш-функция, возвращающая сумму ASCII кодов букв слова
 
@@ -95,6 +101,8 @@ size_t hashFuncSumASCII(char *str, size_t size) {
 <img src="Images/charts/hash_func_4.png">
 </figure>
 
+**Распределение лучше, чем в предыдущих вариантах, но все равно не очень хорошее, особенно для таблицы размера 101**
+
 ### 5) Хеш-функция, которая делает циклический сдвиг вправо результата для подстроки размера на 1 меньше и применяет к нему xor с ASCII кодом текущего символа
 
 ```C
@@ -114,6 +122,8 @@ size_t hashFuncCycleShiftRight(char *str, size_t size) {
 <figure>
 <img src="Images/charts/hash_func_5.png">
 </figure>
+
+**Эта хэш-функция очень равномерно распределила элементы**
 
 ### 6) Хеш-функция, аналогичная предыдущей, но циклический сдвиг теперь производится влево
 
@@ -135,6 +145,8 @@ size_t hashFuncCycleShiftLeft(char *str, size_t size) {
 <img src="Images/charts/hash_func_6.png">
 </figure>
 
+**На диаграмме видны несколько пиков, где коллизия велика, потому распределение немного хуже, чем в прошлом варианте, из-за отсутствия равномерности.**
+
 ### 7) Хэш-функция, которая считает хэш по алгоритму djb2
 
 ```C
@@ -155,3 +167,10 @@ size_t hashFuncDjb2(char *str, size_t size) {
 <figure>
 <img src="Images/charts/hash_func_7.png">
 </figure>
+
+**Очень равномерное распределение, длина списков не превышает 12**
+
+### Вывод
+
+Лучшей хэш-функцией оказалось седьмая, немного хуже неё пятая и шестая
+
