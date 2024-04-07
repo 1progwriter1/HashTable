@@ -175,6 +175,7 @@
     ],
     "cSpell.words": [
         "fileclose",
-        "fileopen"
+        "fileopen",
+        "strlen"
     ],
 }
