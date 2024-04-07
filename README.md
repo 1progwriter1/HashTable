@@ -177,10 +177,16 @@ size_t hashFuncDjb2(char *str, size_t size) {
     return (num >> sizeof(size_t) - 1) | (num << 1)
 ```
 
-<figure>
-<figcaption>Полученный код код</figcaption>
-<img src="Images/godbolt/res_sizeof_O0.png">
-</figure>
+*Полученный код:*
+
+```assembly
+    mov     rax, QWORD PTR [rbp-8]
+    shr     rax, 7
+    mov     rdx, rax
+    mov     rax, QWORD PTR [rbp-8]
+    add     rax, rax
+    or      rax, rdx
+```
 
 <figure>
 <figcaption>Исходный код</figcaption>
