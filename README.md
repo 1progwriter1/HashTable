@@ -1,4 +1,4 @@
-# Оптимизация хэш-таблиц при помощи ассемблерных инструкциЙ
+# Оптимизация хэш-таблиц при помощи ассемблерных инструкций
 
 ## Часть 1
 
@@ -24,9 +24,9 @@
 
 ### 1) Хэш-функция, всегда возвращающая 0
 
-<figure>
+`<figure>
 <img src="Images/hash_functions_code/hash_func_1.png" width=400>
-</figure>
+</figure>`
 
 <figure>
 <img src="Images/charts/hash_func_1.png">
@@ -34,9 +34,9 @@
 
 ### 2) Хеш-функция, возвращающая ASCII код первого символа
 
-<figure>
+`<figure>
 <img src="Images/hash_functions_code/hash_func_2.png" width=400>
-</figure>
+</figure>`
 
 <figure>
 <img src="Images/charts/hash_func_2.png">
@@ -44,19 +44,19 @@
 
 ### 3) Хэш-фукция, возвращающая длину слова
 
-<figure>
+`<figure>
 <img src="Images/hash_functions_code/hash_func_3.png" width=400>
 </figure>
-
+`
 <figure>
 <img src="Images/charts/hash_func_3.png">
 </figure>
 
 ### 4) Хеш-функция, возвращающая сумму ASCII кодов букв слова
 
-<figure>
+`<figure>
 <img src="Images/hash_functions_code/hash_func_4.png" width=400>
-</figure>
+</figure>`
 
 **Для таблицы размера 101**
 
@@ -71,9 +71,9 @@
 </figure>
 
 ### 5) Хеш-функция, которая делает циклический сдвиг вправо результата для подстроки размера на 1 меньше и применяет к нему xor с ASCII кодом текущего символа
-<figure>
+`<figure>
 <img src="Images/hash_functions_code/hash_func_5.png" width=400>
-</figure>
+</figure>`
 
 <figure>
 <img src="Images/charts/hash_func_5.png">
@@ -81,9 +81,9 @@
 
 ### 6) Хеш-функция, аналогичная предыдущей, но циклический сдвиг теперь производится влево
 
-<figure>
+`<figure>
 <img src="Images/hash_functions_code/hash_func_6.png" width=400>
-</figure>
+</figure>`
 
 <figure>
 <img src="Images/charts/hash_func_6.png">
@@ -91,9 +91,9 @@
 
 ### 7) Хэш-функция, которая считает хэш по алгоритму djb2
 
-<figure>
+`<figure>
 <img src="Images/hash_functions_code/hash_func_7.png" width=400>
-</figure>
+</figure>`
 
 <figure>
 <img src="Images/charts/hash_func_7.png">
