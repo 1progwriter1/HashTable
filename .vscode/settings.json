@@ -42,10 +42,10 @@
         "other": "on"
     },
     "editor.fontSize": 17,
-    "editor.autoClosingBrackets": "never",
+    "editor.autoClosingBrackets": "languageDefined",
     "editor.autoClosingDelete": "auto",
     "editor.autoClosingOvertype": "auto",
-    "editor.autoClosingQuotes": "languageDefined",
+    "editor.autoClosingQuotes": "always",
     "editor.autoIndent": "keep",
     "editor.autoSurround": "languageDefined",
     // Amount of lines remaining between cursor and top/bottom of editor.
