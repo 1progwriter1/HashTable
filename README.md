@@ -170,50 +170,59 @@ size_t hashFuncDjb2(char *str, size_t size) {
 
 Компилятор `x86-64 gcc 13.2` на сайте https://godbolt.org/ транслирует код следующим образом
 
- **Оптимизация**
+1)  **Используется sizeof(size_t)**
 
-*Исходный код:*
-```C
-    return (num >> sizeof(size_t) - 1) | (num << 1)
-```
+    *Исходный код:*
+    ```C
+        return (num >> sizeof(size_t) - 1) | (num << 1)
+    ```
 
-*Полученный код:*
+    **Оптимизация:** -O0
 
-```assembly
-    mov     rax, QWORD PTR [rbp-8]
-    shr     rax, 7
-    mov     rdx, rax
-    mov     rax, QWORD PTR [rbp-8]
-    add     rax, rax
-    or      rax, rdx
-```
+    *Полученный код:*
 
-*Полученный код:*
+    ```assembly
+        mov     rax, QWORD PTR [rbp-8]
+        shr     rax, 7
+        mov     rdx, rax
+        mov     rax, QWORD PTR [rbp-8]
+        add     rax, rax
+        or      rax, rdx
+    ```
 
-```assembly
-    mov     rdx, rax
-    shr     rdx, 7
-    add     rax, rax
-    or      rdx, rax
-```
+    **Оптимизация:** -O1
 
-*Исходный код:*
-```C
-    return (num >> 63) | (num << 1)
-```
+    *Полученный код:*
 
-*Полученный код:*
+    ```assembly
+        mov     rdx, rax
+        shr     rdx, 7
+        add     rax, rax
+        or      rdx, rax
+    ```
 
-```assembly
-    mov     rax, QWORD PTR [rbp-8]
+2)  **Используется прямая подстановка числа**
+
+    *Исходный код:*
+    ```C
+        return (num >> 63) | (num << 1)
+    ```
+
+    **Оптимизация:** -O0
+
+    *Полученный код:*
+
+    ```assembly
+        mov     rax, QWORD PTR [rbp-8]
+        rol     rax
+    ```
+    **Оптимизация:** -O1
+
+    *Полученный код:*
+
+    ```assembly
     rol     rax
-```
-
-*Полученный код:*
-
-```assembly
-   rol     rax
-```
+    ```
 
 
 ### Вывод
