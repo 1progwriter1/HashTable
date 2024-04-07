@@ -188,35 +188,32 @@ size_t hashFuncDjb2(char *str, size_t size) {
     or      rax, rdx
 ```
 
-<figure>
-<figcaption>Исходный код</figcaption>
-<img src="Images/godbolt/src_sizeof_O1.png">
-</figure>
+*Полученный код:*
 
-<figure>
-<figcaption>Полученный код код</figcaption>
-<img src="Images/godbolt/res_sizeof_O1.png">
-</figure>
+```assembly
+    mov     rdx, rax
+    shr     rdx, 7
+    add     rax, rax
+    or      rdx, rax
+```
 
-<figure>
-<figcaption>Исходный код</figcaption>
-<img src="Images/godbolt/src_number_O0.png">
-</figure>
+*Исходный код:*
+```C
+    return (num >> 63) | (num << 1)
+```
 
-<figure>
-<figcaption>Полученный код код</figcaption>
-<img src="Images/godbolt/res_number_O0.png">
-</figure>
+*Полученный код:*
 
-<figure>
-<figcaption>Исходный код</figcaption>
-<img src="Images/godbolt/src_number_O1.png">
-</figure>
+```assembly
+    mov     rax, QWORD PTR [rbp-8]
+    rol     rax
+```
 
-<figure>
-<figcaption>Полученный код код</figcaption>
-<img src="Images/godbolt/res_number_O1.png">
-</figure>
+*Полученный код:*
+
+```assembly
+   rol     rax
+```
 
 
 ### Вывод
