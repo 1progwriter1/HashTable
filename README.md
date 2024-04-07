@@ -4,10 +4,11 @@
 
 ## Задача
 
-- Написать хэш-таблицу для строк фиксированного размера и 7 хэш-функций для неё:
+- Написать хэш-таблицу для строк фиксированного размера и 6 заданных хэш-функций для неё и одну свою:
 - Преобразовать текст в набор слов без знаков пунктуации (кол-во слов не меньше 40 000)
 - Поместить полученный набор слов в хэш-таблицу и построить диаграммы, отображающие длины цепочек в ячейках хэш-таблицы после вставки слов, для каждой хэш-функции
 - выяснить, для какой хэш-функции количество коллизий наименьшее
+- посмотреть как транслируется код 5 и 6 хэш-функций
 
 ## Ход работы
 
@@ -101,13 +102,13 @@ size_t hashFuncSumASCII(char *str, size_t size) {
 ### 5) Хеш-функция, которая делает циклический сдвиг вправо результата для подстроки размера на 1 меньше и применяет к нему xor с ASCII кодом текущего символа
 
 ```C
-size_t hashFuncCycleShiftRight(char *str, size_t size) {
+size_t hashFuncRor(char *str, size_t size) {
 
     assert(str);
 
     size_t hash = 0;
     for (size_t i = 0; str[i] != '\0'; i++) {
-        hash = myCycleShiftRight(hash) ^ (size_t) str[i];
+        hash = myRor(hash) ^ (size_t) str[i];
     }
 
     return hash % size;
@@ -118,18 +119,18 @@ size_t hashFuncCycleShiftRight(char *str, size_t size) {
 <img src="Images/charts/hash_func_5.png">
 </figure>
 
-**Эта хэш-функция очень равномерно распределила элементы**
+**Эта хэш-функция довольно равномерно распределила элементы**
 
 ### 6) Хеш-функция, аналогичная предыдущей, но циклический сдвиг теперь производится влево
 
 ```C
-size_t hashFuncCycleShiftLeft(char *str, size_t size) {
+size_t hashFuncRol(char *str, size_t size) {
 
     assert(str);
 
     size_t hash = 0;
     for (size_t i = 0; str[i] != '\0'; i++) {
-        hash = myCycleShiftLeft(hash) ^ (size_t) str[i];
+        hash = myRol(hash) ^ (size_t) str[i];
     }
 
     return hash % size;
@@ -142,7 +143,7 @@ size_t hashFuncCycleShiftLeft(char *str, size_t size) {
 
 **На диаграмме видны несколько пиков, где коллизия велика, потому распределение немного хуже, чем в прошлом варианте, из-за отсутствия равномерности.**
 
-### 7) Хэш-функция, которая считает хэш по алгоритму djb2
+### 7) Моя хэш-функция, которая считает хэш по алгоритму djb2
 
 ```C
 size_t hashFuncDjb2(char *str, size_t size) {
@@ -165,7 +166,54 @@ size_t hashFuncDjb2(char *str, size_t size) {
 
 **Очень равномерное распределение, длина списков не превышает 12**
 
+### Трансляция 5 и 6 хэш-функций
+
+Компилятор `x86-64 gcc 13.2` на сайте https://godbolt.org/ транслирует код следующим образом
+
+ **Оптимизация**
+
+<figure>
+<figcaption>Исходный код</figcaption>
+<img src="Images/godbolt/src_sizeof_O0.png">
+</figure>
+
+<figure>
+<figcaption>Полученный код код</figcaption>
+<img src="Images/godbolt/res_sizeof_O0.png">
+</figure>
+
+<figure>
+<figcaption>Исходный код</figcaption>
+<img src="Images/godbolt/src_sizeof_O1.png">
+</figure>
+
+<figure>
+<figcaption>Полученный код код</figcaption>
+<img src="Images/godbolt/res_sizeof_O1.png">
+</figure>
+
+<figure>
+<figcaption>Исходный код</figcaption>
+<img src="Images/godbolt/src_number_O0.png">
+</figure>
+
+<figure>
+<figcaption>Полученный код код</figcaption>
+<img src="Images/godbolt/res_number_O0.png">
+</figure>
+
+<figure>
+<figcaption>Исходный код</figcaption>
+<img src="Images/godbolt/src_number_O1.png">
+</figure>
+
+<figure>
+<figcaption>Полученный код код</figcaption>
+<img src="Images/godbolt/res_number_O1.png">
+</figure>
+
+
 ### Вывод
 
-Лучшей хэш-функцией оказалось седьмая, для ней количество коллизий наименьшее. Немного хуже неё пятая и шестая
+Лучшей хэш-функцией оказалось седьмая, для ней количество коллизий наименьшее. Немного хуже неё пятая и шестая.
 

@@ -25,11 +25,11 @@ size_t hashFuncZero(char *str, size_t size);
 size_t hashFuncLetterASCII(char *str, size_t size);
 size_t hashFuncLength(char *str, size_t size);
 size_t hashFuncSumASCII(char *str, size_t size);
-size_t hashFuncCycleShiftRight(char *str, size_t size);
-size_t hashFuncCycleShiftLeft(char *str, size_t size);
+size_t hashFuncRol(char *str, size_t size);
+size_t hashFuncRor(char *str, size_t size);
 size_t hashFuncDjb2(char *str, size_t size);
 
-size_t myCycleShiftLeft(size_t num);
-size_t myCycleShiftRight(size_t num);
+size_t myRol(size_t num);
+size_t myRor(size_t num);
 
 #endif

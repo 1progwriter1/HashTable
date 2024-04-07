@@ -110,25 +110,25 @@ size_t hashFuncSumASCII(char *str, size_t size) {
     return ascii_sum % size;
 }
 
-size_t hashFuncCycleShiftRight(char *str, size_t size) {
+size_t hashFuncRor(char *str, size_t size) {
 
     assert(str);
 
     size_t hash = 0;
     for (size_t i = 0; str[i] != '\0'; i++) {
-        hash = myCycleShiftRight(hash) ^ (size_t) str[i];
+        hash = myRor(hash) ^ (size_t) str[i];
     }
 
     return hash % size;
 }
 
-size_t hashFuncCycleShiftLeft(char *str, size_t size) {
+size_t hashFuncRol(char *str, size_t size) {
 
     assert(str);
 
     size_t hash = 0;
     for (size_t i = 0; str[i] != '\0'; i++) {
-        hash = myCycleShiftLeft(hash) ^ (size_t) str[i];
+        hash = myRol(hash) ^ (size_t) str[i];
     }
 
     return hash % size;
@@ -147,12 +147,12 @@ size_t hashFuncDjb2(char *str, size_t size) {
     return hash % size;
 }
 
-size_t myCycleShiftLeft(size_t num) {
+inline size_t myRol(size_t num) {
 
-    return (num >> (sizeof(size_t) - 1)) | (num << 1);
+    return  (num >> 63) | (num << 1);
 }
 
-size_t myCycleShiftRight(size_t num) {
+inline size_t myRor(size_t num) {
 
-    return (num << (sizeof(size_t) - 1)) | (num >> 1);
+    return (num << 63) | (num >> 1);
 }
