@@ -10,7 +10,7 @@ int measureHashTable(HashTableStr *table, const char *filename) {
     assert(filename);
     assert(table);
 
-    char *buf = readbuf(SRC_FILE);
+    char *buf = readFileToBuffer(SRC_FILE);
     if (!buf)   return ERROR;
     char *tmp = buf;
 
@@ -23,7 +23,7 @@ int measureHashTable(HashTableStr *table, const char *filename) {
             return ERROR;
     }
 
-    FILE *fn = fopen(filename, WRITE);
+    FILE *fn = openFile(filename, WRITE);
     if (!fn) return FILE_OPEN_ERROR;
 
     fprintf(fn, "index,size\n");
@@ -31,7 +31,7 @@ int measureHashTable(HashTableStr *table, const char *filename) {
         fprintf(fn, "%lu, %lu\n", i, table->lists[i].size);
 
     free(buf);
-    fclose(fn);
+    closeFile(fn);
 
     return SUCCESS;
 }
