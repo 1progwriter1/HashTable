@@ -2,6 +2,7 @@
 #include <assert.h>
 #include "string_list.h"
 #include <string.h>
+#include <stdlib.h>
 
 static int listsArraysVerify(ListsArrays *arrays);
 static int listsArraysResizeUp(ListsArrays *arrays);

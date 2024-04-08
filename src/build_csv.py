@@ -16,6 +16,6 @@ plt.bar(data['index'], data['size'], color='red')
 
 plt.xlabel("index")
 plt.ylabel("size")
-plt.title("elements distribution")
+plt.title("return 0")
 
 plt.show()

@@ -4,6 +4,7 @@
 #include "../../../MyLibraries/headers/systemdata.h"
 #include "../hash_table/hash_table.h"
 #include "../../../MyLibraries/headers/file_func.h"
+#include <stdlib.h>
 
 int measureHashTable(HashTableStr *table, const char *filename) {
 

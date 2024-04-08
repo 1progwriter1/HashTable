@@ -18,7 +18,7 @@ int main(const int argc, const char *argv[]) {
 
     size_t (*hash_functions[NUMBER_OF_HASH_FUNC])(char *, size_t) =
     {
-    hashFuncZero, hashFuncLetterASCII, hashFuncLength, hashFuncSumASCII, hashFuncCycleShiftLeft, hashFuncCycleShiftRight, hashFuncDjb2
+    hashFuncZero, hashFuncLetterASCII, hashFuncLength, hashFuncSumASCII, hashFuncRol, hashFuncRor, hashFuncDjb2
     };
 
     HashTableStr table = {};
