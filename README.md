@@ -1,4 +1,4 @@
-# Оптимизация хэш-таблиц при помощи ассемблерных инструкций
+# Оптимизация хэш-таблиц при помощи SIMD инструкций и ассемблерного кода
 
 ## **Часть 1**
 
@@ -30,7 +30,7 @@ size_t hashFuncZero(char *str, size_t size) {
 ```
 
 <figure>
-<img src="Images/charts/hash_func_1.png" width = 400>
+<img src="Images/charts/hash_func_1.png">
 </figure>
 
 **Все слова, как и ожидалось, попали в список под индексом 0.**
