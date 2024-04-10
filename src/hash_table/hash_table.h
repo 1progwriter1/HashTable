@@ -5,7 +5,7 @@
 #include "string_list.h"
 
 const size_t HASH_TABLE_SIZE = 2003;
-const size_t NUMBER_OF_HASH_FUNC = 7;
+const size_t NUMBER_OF_HASH_FUNC = 8;
 
 struct HashTableStr {
     size_t (*hashFunc)(char *, size_t);
@@ -28,6 +28,7 @@ size_t hashFuncSumASCII(char *str, size_t size);
 size_t hashFuncRol(char *str, size_t size);
 size_t hashFuncRor(char *str, size_t size);
 size_t hashFuncDjb2(char *str, size_t size);
+size_t hashFuncCRC32(char *str, size_t size);
 
 size_t myRol(size_t num);
 size_t myRor(size_t num);

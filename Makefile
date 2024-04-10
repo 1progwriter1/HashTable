@@ -20,8 +20,12 @@ OBJ=$(wildcard *.o)
 	mv *.out ../../
 
 all:
-	$(COMP) $(CFLAFS) -c $(HASH_TABLE_SRC) $(MEASURE_SRC) src/main.cpp
+	$(COMP) $(CFLAFS) -c $(HASH_TABLE_SRC) src/main.cpp
 	$(COMP) $(CFLAFS) $(OBJ) $(LIB_OBJ)
+
+measure:
+	$(COMP) $(CFLAFS) -c $(HASH_TABLE_SRC) $(MEASURE_SRC)
+	$(COMP) $(CFLAFS) $(OBJ) $(LIB_OBJ) -o measure.out
 
 clean:
 	rm *.out

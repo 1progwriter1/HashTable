@@ -18,169 +18,39 @@
 
 ## Полученные результаты
 
-### 1) Хэш-функция, всегда возвращающая 0
-
-```C
-size_t hashFuncZero(char *str, size_t size) {
-
-    assert(str);
-
-    return 0 % size;
-}
-```
-
 <figure>
-<img src="Images/charts/hash_func_1.png">
+<img src="Images/charts/merged_3:3.png">
 </figure>
 
-**Все слова, как и ожидалось, попали в список под индексом 0.**
-
-### 2) Хеш-функция, возвращающая ASCII код первого символа
-
-```C
-size_t hashFuncLetterASCII(char *str, size_t size) {
-
-    assert(str);
-
-    return (size_t) str[0] % size;
-}
-```
-
-<figure>
-<img src="Images/charts/hash_func_2.png">
-</figure>
-
-**Все слова находятся в диапазоне [0;255]**
-
-### 3) Хэш-функция, возвращающая длину слова
-
-```C
-size_t hashFuncLength(char *str, size_t size) {
-
-    assert(str);
-
-    return strlen(str) % size;
-}
-```
-
-<figure>
-<img src="Images/charts/hash_func_3.png">
-</figure>
-
-**Большое количеств артиклей и коротких слов привело к большому числу коллизий**
-
-### 4) Хеш-функция, возвращающая сумму ASCII кодов букв слова
-
-```C
-size_t hashFuncSumASCII(char *str, size_t size) {
-
-    assert(str);
-
-    size_t ascii_sum = 0;
-    for (size_t i = 0; str[i] != '\0'; i++) {
-        ascii_sum += (size_t) str[i];
-    }
-
-    return ascii_sum % size;
-}
-```
-
-**Для таблицы размера 101**
-
-<figure>
-<img src="Images/charts/hash_func_4_101.png">
-</figure>
-
-**Для таблицы размера 2003**
-
-<figure>
-<img src="Images/charts/hash_func_4.png">
-</figure>
-
-**Распределение лучше, чем в предыдущих вариантах, но все равно не очень хорошее, особенно для таблицы размера 101**
-
-### 5) Хеш-функция, которая делает циклический сдвиг вправо результата для подстроки размера на 1 меньше и применяет к нему xor с ASCII кодом текущего символа
-
-```C
-size_t hashFuncRor(char *str, size_t size) {
-
-    assert(str);
-
-    size_t hash = 0;
-    for (size_t i = 0; str[i] != '\0'; i++) {
-        hash = myRor(hash) ^ (size_t) str[i];
-    }
-
-    return hash % size;
-}
-```
-
-<figure>
-<img src="Images/charts/hash_func_5.png">
-</figure>
-
-**Эта хэш-функция довольно равномерно распределила элементы**
-
-### 6) Хеш-функция, аналогичная предыдущей, но циклический сдвиг теперь производится влево
-
-```C
-size_t hashFuncRol(char *str, size_t size) {
-
-    assert(str);
-
-    size_t hash = 0;
-    for (size_t i = 0; str[i] != '\0'; i++) {
-        hash = myRol(hash) ^ (size_t) str[i];
-    }
-
-    return hash % size;
-}
-```
-
-<figure>
-<img src="Images/charts/hash_func_6.png">
-</figure>
-
-**На диаграмме видны несколько пиков, где коллизия велика, потому распределение немного хуже, чем в прошлом варианте, из-за отсутствия равномерности.**
-
-### 7) Моя хэш-функция, которая считает хэш по алгоритму djb2
-
-```C
-size_t hashFuncDjb2(char *str, size_t size) {
-
-    assert(str);
-
-    size_t hash = 5381;
-
-    for (size_t i = 0; str[i] != '\0'; i++) {
-        hash = ((hash << 5) + hash) + (size_t) str[i];
-    }
-
-    return hash % size;
-}
-```
-
-<figure>
-<img src="Images/charts/hash_func_7.png">
-</figure>
-
-**Очень равномерное распределение, длина списков не превышает 12**
+### Исходники графиков
+- [return 0](Images/charts/hash_func_1.png)
+- [return int(word[0])](Images/charts/hash_func_2.png)
+- [return  len(word)](Images/charts/hash_func_3.png)
+- [return sum_ASCII(word) size=101](Images/charts/hash_func_4_101.png)
+- [return sum_ASCII(word)](Images/charts/hash_func_4.png)
+- [return ror(hash(n - 1)) * int(word[n])](Images/charts/hash_func_5.png)
+- [return rol(hash(n - 1)) * int(word[n])](Images/charts/hash_func_6.png)
+- [return djb2(word)](Images/charts/hash_func_7.png)
+- [return crc32(word)](Images/charts/hash_func_8.png)
 
 ### Равномерность распределения
 
 | Хэш-функция | Алгоритм | Дисперсия * 10<sup>2</sup>|
 |:-----------:|:--------:|:---------:|
-|   1   | return 0| 291.99|
-|   2   | return int(word[0])  |7.23|
-|   3   | return  len(word) |15.9|
-|   4   | return sum_ASCII(word) | 0.2 |
-|   5   | return ror(hash(n - 1)) * int(word[n])  | 0.04|
-|   6   | return rol(hash(n - 1)) * int(word[n]) | 0.06|
-|   7   | return djb2(word)  | 0.03|
+|   1   | return 0| 291.988|
+|   2   | return int(word[0])  |7.228|
+|   3   | return  len(word) |15.902|
+|   4   | return sum_ASCII(word) | 0.207 |
+|   5   | return ror(hash(n - 1)) * int(word[n])  | 0.034|
+|   6   | return rol(hash(n - 1)) * int(word[n]) | 0.078|
+|   7   | return djb2(word)  | 0.026 |
+|   8   | return crc32(word) | 0.025 |
 
 ### Вывод
 
-Лучшее распределение оказалось у седьмой хэш-функции. Немного хуже результаты у пятой и шестой.
+Лучшее распределение оказалось у хэш-функции CRC32. В дальнейшем будем использовать ее. К тому же мы сможем оптимизировать её вычисление при помощи SIMD
+инструкции.
+
 
 ### Трансляция пятой и шестой хэш-функций
 

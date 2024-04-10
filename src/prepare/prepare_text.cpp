@@ -5,8 +5,8 @@
 #include "../../../MyLibraries/headers/file_func.h"
 #include "../../../MyLibraries/headers/systemdata.h"
 
-#define WIGHT_FANG "text/wight_fang.txt"
-#define PREPARED_TEXT "text/clean_text.txt"
+#define WIGHT_FANG "data/wight_fang.txt"
+#define PREPARED_TEXT "data/clean_text.txt"
 
 const size_t MAX_WORD_LEN = 128;
 const size_t MAX_NUMBER_OF_WORDS = 40000;
@@ -27,7 +27,7 @@ int PrepareText(const char *src_file, const char *dst_file) {
     assert(src_file);
     assert(dst_file);
 
-    char *buf = readbuf(src_file);
+    char *buf = readFileToBuffer(src_file);
     if (!buf)   return ERROR;
     char *tmp = buf;
 
@@ -50,7 +50,7 @@ int PrepareText(const char *src_file, const char *dst_file) {
         number_of_words += 1;
     }
 
-    fileclose(dst);
+    closeFile(dst);
     free(buf);
 
     return SUCCESS;
