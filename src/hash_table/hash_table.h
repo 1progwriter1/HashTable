@@ -6,6 +6,7 @@
 
 const size_t HASH_TABLE_SIZE = 2003;
 const size_t NUMBER_OF_HASH_FUNC = 8;
+const size_t MAX_WORD_LEN = 32;
 
 struct HashTableStr {
     size_t (*hashFunc)(char *, size_t);
@@ -20,6 +21,7 @@ void hashTableStrDtor(HashTableStr *table);
 
 int hashTableStrInsert(HashTableStr *table, char *str);
 bool isInserted(char *str, ListStr *lst, ListsArrays *arrays);
+int loadHashTable(HashTableStr *table, const char *filename);
 
 size_t hashFuncZero(char *str, size_t size);
 size_t hashFuncLetterASCII(char *str, size_t size);

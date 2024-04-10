@@ -6,8 +6,6 @@
 
 #define SRC_FILE "data/clean_text.txt"
 
-const size_t MAX_WORD_LEN = 128;
-
 enum HashTableMode {
     ZeroHash = 0,
     LetterASCII = 1,
