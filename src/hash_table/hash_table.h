@@ -1,6 +1,8 @@
 #ifndef HASH_TABLE_FUNCTIONS
 #define HASH_TABLE_FUNCTIONS
 
+#define MEASURE
+
 #include <stdio.h>
 #include "string_list.h"
 
@@ -19,9 +21,12 @@ struct HashTableStr {
 int hashTableStrCtor(HashTableStr *table, size_t (*hashFunc)(char *, size_t));
 void hashTableStrDtor(HashTableStr *table);
 
-int hashTableStrInsert(HashTableStr *table, char *str);
-bool isInserted(char *str, ListStr *lst, ListsArrays *arrays);
+int hashTableStrInsert(HashTableStr *table, Word str);
+bool isInserted(Word str, ListStr *lst, ListsArrays *arrays);
 int loadHashTable(HashTableStr *table, const char *filename);
+
+int myStrcmp(Word a, Word b);
+size_t hashFuncCRC32fast(char *str, size_t size);
 
 size_t hashFuncZero(char *str, size_t size);
 size_t hashFuncLetterASCII(char *str, size_t size);

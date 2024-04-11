@@ -5,6 +5,8 @@
 #include "../../../MyLibraries/headers/file_func.h"
 #include "../../../MyLibraries/headers/systemdata.h"
 #include <stdlib.h>
+#include <stdint.h>
+#include <immintrin.h>
 
 #define HASH_TABLE_HEAD table->lists[insert_index].head
 #define HASH_TABLE_TAIL table->lists[insert_index].tail
@@ -12,7 +14,7 @@
 int hashTableStrCtor(HashTableStr *table, size_t (*hashFunc)(char *, size_t)) {
 
     assert(table);
-    assert(*hashFunc);
+    assert(hashFunc);
 
     if (listsArraysCtor(&table->arrays) != SUCCESS)
         return ERROR;
@@ -51,50 +53,79 @@ int loadHashTable(HashTableStr *table, const char *filename) {
     if (!buf)   return ERROR;
     char *tmp = buf;
 
-    char word_buf[MAX_WORD_LEN] = "";
+    Word str = {};
+
+    #ifdef MEASURE
+    unsigned int start = __rdtsc();
+    #endif
 
     int sym_read = 0;
-    while (sscanf(tmp, "%s %n", word_buf, &sym_read) == 1) {
+    while (sscanf(tmp, "%s %n", str.str, &sym_read) == 1) {
         tmp += sym_read;
-        if (hashTableStrInsert(table, word_buf) != SUCCESS)
+        if (hashTableStrInsert(table, str) != SUCCESS)
             return ERROR;
+        str = {};
     }
 
+    #ifdef MEASURE
+    unsigned int end = __rdtsc();
+    printf("load table: %u\n", end - start);
+    #endif
+
     free(buf);
+
 
     return SUCCESS;
 }
 
-int hashTableStrInsert(HashTableStr *table, char *str) {
+int hashTableStrInsert(HashTableStr *table, Word str) {
 
     assert(table);
-    assert(str);
 
-    size_t insert_index = table->hashFunc(str, HASH_TABLE_SIZE);
+    size_t insert_index = table->hashFunc(str.str, HASH_TABLE_SIZE);
     if (insert_index >= table->size) {
         printf(RED "hash_table error: " END_OF_COLOR "incorrect insert_index received\n");
         return ERROR;
     }
+    #ifdef MEASURE
+    unsigned int start = __rdtsc();
+    #endif
 
-    if (isInserted(str, &table->lists[insert_index], &table->arrays)) return SUCCESS;
+    if (isInserted(str, &table->lists[insert_index], &table->arrays))   return SUCCESS;
+
+    #ifdef MEASURE
+    unsigned int end = __rdtsc();
+    printf("search: %u\n", end - start);
+    #endif
+
+    #ifdef MEASURE
+    unsigned int start_insert = __rdtsc();
+    #endif
 
     if (listStrInsertAfter(&table->lists[insert_index], str, HASH_TABLE_TAIL, &table->arrays) != SUCCESS)
         return ERROR;
 
+    #ifdef MEASURE
+    unsigned int end_insert = __rdtsc();
+    printf("insert: %u\n", end_insert - start_insert);
+    #endif
+
     return SUCCESS;
 }
 
-bool isInserted(char *str, ListStr *lst, ListsArrays *arrays) {
+bool isInserted(Word str, ListStr *lst, ListsArrays *arrays) {
 
-    assert(str);
     assert(lst);
     assert(arrays);
 
-    size_t cur_index = lst->head;
-    if (!arrays->data[cur_index])   return false;
+    if (lst->size == 0)   return false;
 
+    size_t cur_index = lst->head;
     while (true) {
-        if (strcmp(arrays->data[cur_index], str) == 0)  return true;
+        if (strcmp(arrays->data[cur_index].word.str, str.str) == 0)  {
+            arrays->data[cur_index].number++;
+            return true;
+        }
         if (cur_index == lst->tail) break;
         cur_index = arrays->next[cur_index];
     }
@@ -182,6 +213,13 @@ inline size_t myRor(size_t num) {
     return (num << 63) | (num >> 1);
 }
 
+int myStrcmp(Word a, Word b) {
+
+    __m256i mask = _mm256_cmpeq_epi8(a.packed, b.packed);
+
+    return ~_mm256_movemask_epi8(mask);
+}
+
 // https://github.com/gcc-mirror/gcc/blob/master/libiberty/crc32.c
 const uint32_t CRC32Table[] =
 {
@@ -259,6 +297,18 @@ size_t hashFuncCRC32(char *str, size_t size) {
     uint32_t crc32 = 0xFFFFFFFF;
     for (size_t i = 0; str[i] != '\0'; i++) {
 		crc32 = (crc32 >> 8) ^ CRC32Table[(crc32 ^ (uint32_t) str[i]) & 0xff];
+    }
+
+    return ~crc32 % size;
+}
+
+size_t hashFuncCRC32fast(char *str, size_t size) {
+
+    assert(str);
+
+    unsigned int crc32 = 0xFFFFFFFF;
+    for (size_t i = 0; str[i] != '\0'; i++) {
+		crc32 = _mm_crc32_u8(crc32, (unsigned char) str[i]);
     }
 
     return ~crc32 % size;

@@ -1,6 +1,6 @@
-CFLAFS=-fsanitize=address,alignment -D _DEBUG -ggdb3 -std=c++17 -O0 -Wall -Wextra -Weffc++ -Wc++14-compat -Wmissing-declarations -Wcast-qual -Wchar-subscripts -Wconversion -Wctor-dtor-privacy -Wempty-body -Wfloat-equal -Wformat-nonliteral -Wformat-security -Wformat=2 -Winline -Wnon-virtual-dtor -Woverloaded-virtual -Wpacked -Wpointer-arith -Winit-self -Wredundant-decls -Wshadow -Wsign-conversion -Wsign-promo -Wstrict-overflow=2 -Wsuggest-override -Wswitch-default -Wswitch-enum -Wundef -Wunreachable-code -Wunused -Wvariadic-macros -Wno-missing-field-initializers -Wno-narrowing -Wno-old-style-cast -Wno-varargs -Wstack-protector -fcheck-new -fsized-deallocation -fstack-protector -fstrict-overflow -fno-omit-frame-pointer -Wlarger-than=8192 -fPIE -Werror=vla
-
 COMP=g++
+FLAGS= -DNDEBUG -O3 -mavx -mavx2
+CFLAFS=
 
 LIB_OBJ=$(wildcard lib/*.o)
 
@@ -20,8 +20,9 @@ OBJ=$(wildcard *.o)
 	mv *.out ../../
 
 all:
-	$(COMP) $(CFLAFS) -c $(HASH_TABLE_SRC) src/main.cpp
-	$(COMP) $(CFLAFS) $(OBJ) $(LIB_OBJ)
+	$(COMP) $(FLAGS) $(CFLAFS) -c $(HASH_TABLE_SRC) src/main.cpp
+	asm
+	$(COMP) $(FLAGS) $(CFLAFS) $(OBJ) $(LIB_OBJ)
 
 measure:
 	$(COMP) $(CFLAFS) -c $(HASH_TABLE_SRC) $(MEASURE_SRC)
@@ -32,3 +33,7 @@ clean:
 
 clean_obj:
 	rm *.o
+
+asm:
+	nasm -f elf64 src/ascii_sum.s
+	mv src/ascii_sum.o ../

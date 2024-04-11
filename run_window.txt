@@ -1,0 +1,5 @@
+ssh -X -v root@188.225.44.3
+bLy2tw+JA3?swc
+LIBGL_ALWAYS_INDIRECT=1 ./
+
+valgrind --tool=callgrind

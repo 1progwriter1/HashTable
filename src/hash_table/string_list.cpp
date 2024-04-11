@@ -11,9 +11,9 @@ int listsArraysCtor(ListsArrays *arrays) {
 
     assert(arrays);
 
-    arrays->data = (char **)  calloc (LIST_INIT_SIZE, sizeof(char *));
-    arrays->next = (size_t *) calloc (LIST_INIT_SIZE, sizeof(size_t));
-    arrays->prev = (size_t *) calloc (LIST_INIT_SIZE, sizeof(size_t));
+    arrays->data = (ListNode *) calloc (LIST_INIT_SIZE, sizeof(ListNode));
+    arrays->next = (size_t *)   calloc (LIST_INIT_SIZE, sizeof(size_t));
+    arrays->prev = (size_t *)   calloc (LIST_INIT_SIZE, sizeof(size_t));
 
     if (!arrays->data || !arrays->next || !arrays->prev) {
 
@@ -29,10 +29,10 @@ int listsArraysCtor(ListsArrays *arrays) {
 
     arrays->next[0] = 0;
     arrays->next[arrays->size - 1] = 0;
-    arrays->data[0] = NULL;
+    arrays->data[0] = {};
 
     for (size_t i = 1; i < arrays->size - 1; i++) {
-        arrays->data[i] = NULL;
+        arrays->data[i] = {};
         arrays->next[i] = i + 1;
         arrays->prev[i] = 0;
     }
@@ -41,10 +41,9 @@ int listsArraysCtor(ListsArrays *arrays) {
     return SUCCESS;
 }
 
-int listStrInsertAfter(ListStr *lst, char *str, size_t index, ListsArrays *arrays) {
+int listStrInsertAfter(ListStr *lst, Word str, size_t index, ListsArrays *arrays) {
 
     assert(lst);
-    assert(str);
     assert(arrays);
 
     if (listsArraysVerify(arrays) != SUCCESS)
@@ -66,12 +65,10 @@ int listStrInsertAfter(ListStr *lst, char *str, size_t index, ListsArrays *array
     arrays->prev[free_index] = index;
     arrays->next[index] = free_index;
 
-    size_t len_of_str = strlen(str);
-    char *tmp = (char *) calloc (len_of_str + 1, sizeof(char));
-    if (!tmp)   return ERROR;
-
-    arrays->data[free_index] = tmp;
-    memcpy(arrays->data[free_index], str, (len_of_str + 1) * sizeof(char));
+    size_t len_of_str = strlen(str.str);
+    memset(arrays->data[free_index].word.str, 0, sizeof(char) * 32);
+    memcpy(arrays->data[free_index].word.str, str.str, (len_of_str + 1) * sizeof(char));
+    arrays->data[free_index].number++;
     lst->size++;
 
     return SUCCESS;
@@ -104,9 +101,9 @@ static int listsArraysResizeUp(ListsArrays *arrays) {
     size_t old_size = arrays->size;
     arrays->size *= RESIZE_COEFF;
 
-    char  **tmp_data = (char **)  realloc (arrays->data, arrays->size * sizeof(size_t));
-    size_t *tmp_next = (size_t *) realloc (arrays->next, arrays->size * sizeof(size_t));
-    size_t *tmp_prev = (size_t *) realloc (arrays->prev, arrays->size * sizeof(size_t));
+    ListNode *tmp_data = (ListNode *)  realloc (arrays->data, arrays->size * sizeof(ListNode));
+    size_t   *tmp_next = (size_t *) realloc (arrays->next, arrays->size * sizeof(size_t));
+    size_t   *tmp_prev = (size_t *) realloc (arrays->prev, arrays->size * sizeof(size_t));
 
     if (!tmp_data || !tmp_next || !tmp_prev) {
         free(tmp_data);
@@ -122,10 +119,10 @@ static int listsArraysResizeUp(ListsArrays *arrays) {
 
     arrays->free = old_size;
     arrays->next[arrays->size - 1] = 0;
-    arrays->data[arrays->size - 1] = NULL;
+    arrays->data[arrays->size - 1] = {};
 
     for (size_t i = old_size; i < arrays->size - 1; i++) {
-        arrays->data[i] = NULL;
+        arrays->data[i] = {};
         arrays->prev[i] = 0;
         arrays->next[i] = i + 1;
     }

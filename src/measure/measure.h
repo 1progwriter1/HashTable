@@ -14,6 +14,7 @@ enum HashTableMode {
     CycleShiftLeft = 4,
     CycleShiftRight = 5,
     MyDjb2 = 6,
+    CRC32  = 7,
 };
 
 int measureHashTable(HashTableStr *table, const char *filename);
