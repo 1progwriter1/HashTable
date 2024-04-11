@@ -1,5 +1,5 @@
 COMP=g++
-FLAGS= -DNDEBUG -O3 -mavx -mavx2
+FLAGS= -DNDEBUG -O0 -mavx -mavx2
 CFLAFS=
 
 LIB_OBJ=$(wildcard lib/*.o)

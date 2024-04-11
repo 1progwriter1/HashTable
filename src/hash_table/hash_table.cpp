@@ -131,7 +131,7 @@ bool isInserted(Word str, ListStr *lst, ListsArrays *arrays) {
 
     size_t cur_index = lst->head;
     while (true) {
-        if (myStrcmp(arrays->data[cur_index].word, str) == 0)  {
+        if (strcmp(arrays->data[cur_index].word.str, str.str) == 0)  {
             arrays->data[cur_index].number++;
             return true;
         }

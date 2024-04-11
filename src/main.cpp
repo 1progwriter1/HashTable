@@ -8,12 +8,12 @@
 #include <string.h>
 #include <time.h>
 
-const size_t NUMBER_OF_SEARCHES = 5000;
+const size_t NUMBER_OF_SEARCHES = 50000;
 
 int main() {
 
     HashTableStr table = {};
-    if (hashTableStrCtor(&table, hashFuncCRC32fast) != SUCCESS)
+    if (hashTableStrCtor(&table, hashFuncCRC32) != SUCCESS)
         return ERROR;
 
     #ifdef MEASURE
