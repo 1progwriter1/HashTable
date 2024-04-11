@@ -60,7 +60,7 @@ int loadHashTable(HashTableStr *table, const char *filename) {
     #endif
 
     int sym_read = 0;
-    while (sscanf(tmp, "%s %n", str.str, &sym_read) == 1) {
+    while (sscanf(tmp, "%31s %n", str.str, &sym_read) == 1) {
         tmp += sym_read;
         if (hashTableStrInsert(table, str) != SUCCESS)
             return ERROR;
@@ -122,7 +122,7 @@ bool isInserted(Word str, ListStr *lst, ListsArrays *arrays) {
 
     size_t cur_index = lst->head;
     while (true) {
-        if (strcmp(arrays->data[cur_index].word.str, str.str) == 0)  {
+        if (myStrcmp(arrays->data[cur_index].word, str) == 0)  {
             arrays->data[cur_index].number++;
             return true;
         }
@@ -202,6 +202,37 @@ size_t hashFuncDjb2(char *str, size_t size) {
 
     return hash % size;
 }
+
+// size_t hashFuncDjb2Asm(char *str, size_t size) {
+//
+//     assert(str);
+//
+//     size_t hash = 5381;
+//
+//     __asm__ (
+//         ".intel_syntax noprefix\n\t"
+//
+//         "mov rdi, %1\n\t"
+//         "mov rsi, %2\n"
+//         ".djb2_loop:\n\t"
+//         "cmp byte [rdi], 0x0\n\t"
+//         "je .end\n\t"
+//         "mov rax, rdx\n\t"
+//         "shl rax, 5\n\t"
+//         "add rsi, rsi\n\t"
+//         "add rsi, rax\n\t"
+//         "add rsi, byte [rdi]"
+//         "jmp .djb2_loop\n"
+//         ".end:\n\t"
+//         "mov %0, rdx\n\t"
+//
+//         :"=r"(hash)
+//         :"r"(str) ,"r"(hash)
+//         :"%rdx", "%rdi", "%rax"
+//     );
+//
+//     return hash;
+// }
 
 inline size_t myRol(size_t num) {
 

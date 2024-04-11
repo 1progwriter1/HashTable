@@ -1,12 +1,12 @@
 #ifndef HASH_TABLE_FUNCTIONS
 #define HASH_TABLE_FUNCTIONS
 
-#define MEASURE
+// #define MEASURE
 
 #include <stdio.h>
 #include "string_list.h"
 
-const size_t HASH_TABLE_SIZE = 2003;
+const size_t HASH_TABLE_SIZE = 2048;
 const size_t NUMBER_OF_HASH_FUNC = 8;
 const size_t MAX_WORD_LEN = 32;
 
@@ -27,6 +27,9 @@ int loadHashTable(HashTableStr *table, const char *filename);
 
 int myStrcmp(Word a, Word b);
 size_t hashFuncCRC32fast(char *str, size_t size);
+// size_t hashFuncDjb2Asm(char *str, size_t size);
+
+extern "C" size_t ascii_sum(char *str, size_t size);
 
 size_t hashFuncZero(char *str, size_t size);
 size_t hashFuncLetterASCII(char *str, size_t size);
