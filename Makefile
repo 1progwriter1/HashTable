@@ -1,6 +1,6 @@
 COMP=g++
-FLAGS= -DNDEBUG -O0 -mavx -mavx2
-CFLAFS=
+FLAGS= -DNDEBUG -O3 -mavx -mavx2
+CFLAFS=-mavx -mavx2
 
 LIB_OBJ=$(wildcard lib/*.o)
 
@@ -34,6 +34,6 @@ clean_obj:
 	rm *.o
 
 asm:
-	nasm -f elf64 src/ascii_sum.s
-	mv src/ascii_sum.o ../HashTable
-	$(COMP) -no-pie $(FLAGS) src/main.cpp $(HASH_TABLE_SRC) $(LIB_OBJ) ascii_sum.o
+	nasm -f elf64 src/asciiSum.s
+	mv src/asciiSum.o ../HashTable
+	$(COMP) -no-pie $(FLAGS) src/main.cpp $(HASH_TABLE_SRC) $(LIB_OBJ) asciiSum.o

@@ -9,4 +9,3 @@ with open("Results/time_rdtsc/crc32_fast.txt") as f:
 
 s = [int(i.replace("load table: ", "")) for i in s]
 print(sum(s) / len(s))
-

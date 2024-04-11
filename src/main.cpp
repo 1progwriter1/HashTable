@@ -13,7 +13,7 @@ const size_t NUMBER_OF_SEARCHES = 50000;
 int main() {
 
     HashTableStr table = {};
-    if (hashTableStrCtor(&table, hashFuncCRC32) != SUCCESS)
+    if (hashTableStrCtor(&table, asciiSum) != SUCCESS)
         return ERROR;
 
     #ifdef MEASURE
@@ -27,8 +27,11 @@ int main() {
 
     size_t found = 0;
     for (size_t j = 0; j < NUMBER_OF_SEARCHES; j++) {
+
         for (size_t i = 0; i < table.arrays.size; i++) {
+
             size_t insert_index = table.hashFunc(table.arrays.data[i].word.str, table.size);
+
             if (isInserted(table.arrays.data[i].word, &table.lists[insert_index], &table.arrays))
                 found++;
         }
