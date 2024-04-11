@@ -6,6 +6,7 @@
 #include "measure/measure.h"
 #include "hash_table/hash_table.h"
 #include <string.h>
+#include <time.h>
 
 const size_t NUMBER_OF_SEARCHES = 5000;
 
@@ -18,6 +19,8 @@ int main() {
     #ifdef MEASURE
     unsigned int start = __rdtsc();
     #endif
+
+    clock_t begin = clock();
 
     if (loadHashTable(&table, SRC_FILE) != SUCCESS)
         return ERROR;
@@ -39,6 +42,10 @@ int main() {
     hashTableStrDtor(&table);
 
     printf("%lu\n", found);
+
+    clock_t finish = clock();
+
+    printf("%f\n", (double) (finish - begin) / CLOCKS_PER_SEC);
 
     return SUCCESS;
 }
