@@ -60,15 +60,19 @@ int loadHashTable(HashTableStr *table, const char *filename) {
     #endif
 
     size_t begin = 0;
-    for (size_t i = 0; buf[i] != '\0'; i++) {
-        if (buf[i] == '\n') {
-            buf[i] = '\0';
+    size_t end = 0;
+    while (buf[end] != '\0') {
+        if (buf[end] == '\n') {
+            buf[end] = '\0';
             if (hashTableStrInsert(table, buf + begin) != SUCCESS)
                 return ERROR;
-            begin = i + 1;
+            begin = end + 1;
         }
+        end++;
     }
-    if (buf[begin])
+    if (begin < end)
+        if (hashTableStrInsert(table, buf + begin) != SUCCESS)
+            return ERROR;
 
     #ifdef MEASURE
     unsigned int end = __rdtsc();

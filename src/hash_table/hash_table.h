@@ -21,7 +21,7 @@ struct HashTableStr {
 int hashTableStrCtor(HashTableStr *table, size_t (*hashFunc)(char *, size_t));
 void hashTableStrDtor(HashTableStr *table);
 
-int hashTableStrInsert(HashTableStr *table, Word str);
+int hashTableStrInsert(HashTableStr *table, char *str);
 bool isInserted(Word str, ListStr *lst, ListsArrays *arrays);
 int loadHashTable(HashTableStr *table, const char *filename);
 

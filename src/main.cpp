@@ -7,6 +7,8 @@
 #include "hash_table/hash_table.h"
 #include <string.h>
 
+const size_t NUMBER_OF_SEARCHES = 5000;
+
 int main() {
 
     HashTableStr table = {};
@@ -21,7 +23,7 @@ int main() {
         return ERROR;
 
     size_t found = 0;
-    for (size_t j = 0; j < 5000; j++) {
+    for (size_t j = 0; j < NUMBER_OF_SEARCHES; j++) {
         for (size_t i = 0; i < table.arrays.size; i++) {
             size_t insert_index = table.hashFunc(table.arrays.data[i].word.str, table.size);
             if (isInserted(table.arrays.data[i].word, &table.lists[insert_index], &table.arrays))
