@@ -65,9 +65,7 @@ int listStrInsertAfter(ListStr *lst, Word str, size_t index, ListsArrays *arrays
     arrays->prev[free_index] = index;
     arrays->next[index] = free_index;
 
-    size_t len_of_str = strlen(str.str);
-    memset(arrays->data[free_index].word.str, 0, sizeof(char) * 32);
-    memcpy(arrays->data[free_index].word.str, str.str, (len_of_str + 1) * sizeof(char));
+    memcpy(arrays->data[free_index].word.str, str.str, 32 * sizeof(char));
     arrays->data[free_index].number++;
     lst->size++;
 

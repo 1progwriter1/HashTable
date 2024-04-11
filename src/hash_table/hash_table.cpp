@@ -59,13 +59,16 @@ int loadHashTable(HashTableStr *table, const char *filename) {
     unsigned int start = __rdtsc();
     #endif
 
-    int sym_read = 0;
-    while (sscanf(tmp, "%31s %n", str.str, &sym_read) == 1) {
-        tmp += sym_read;
-        if (hashTableStrInsert(table, str) != SUCCESS)
-            return ERROR;
-        str = {};
+    size_t begin = 0;
+    for (size_t i = 0; buf[i] != '\0'; i++) {
+        if (buf[i] == '\n') {
+            buf[i] = '\0';
+            if (hashTableStrInsert(table, buf + begin) != SUCCESS)
+                return ERROR;
+            begin = i + 1;
+        }
     }
+    if (buf[begin])
 
     #ifdef MEASURE
     unsigned int end = __rdtsc();
@@ -78,11 +81,11 @@ int loadHashTable(HashTableStr *table, const char *filename) {
     return SUCCESS;
 }
 
-int hashTableStrInsert(HashTableStr *table, Word str) {
+int hashTableStrInsert(HashTableStr *table, char *str) {
 
     assert(table);
 
-    size_t insert_index = table->hashFunc(str.str, HASH_TABLE_SIZE);
+    size_t insert_index = table->hashFunc(str, HASH_TABLE_SIZE);
     if (insert_index >= table->size) {
         printf(RED "hash_table error: " END_OF_COLOR "incorrect insert_index received\n");
         return ERROR;
@@ -90,8 +93,10 @@ int hashTableStrInsert(HashTableStr *table, Word str) {
     #ifdef MEASURE
     unsigned int start = __rdtsc();
     #endif
-
-    if (isInserted(str, &table->lists[insert_index], &table->arrays))   return SUCCESS;
+    size_t str_len = strlen(str);
+    Word word = {};
+    memcpy(word.str, str, (str_len + 1) * sizeof (char));
+    if (isInserted(word, &table->lists[insert_index], &table->arrays))   return SUCCESS;
 
     #ifdef MEASURE
     unsigned int end = __rdtsc();
@@ -102,7 +107,7 @@ int hashTableStrInsert(HashTableStr *table, Word str) {
     unsigned int start_insert = __rdtsc();
     #endif
 
-    if (listStrInsertAfter(&table->lists[insert_index], str, HASH_TABLE_TAIL, &table->arrays) != SUCCESS)
+    if (listStrInsertAfter(&table->lists[insert_index], word, HASH_TABLE_TAIL, &table->arrays) != SUCCESS)
         return ERROR;
 
     #ifdef MEASURE
