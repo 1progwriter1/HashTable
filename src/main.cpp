@@ -26,7 +26,7 @@ int main(const int argc, const char *argv[]) {
     clock_t begin = clock();
 
     HashTableStr table = {};
-    if (hashTableStrCtor(&table, hashFuncRolAsm) != SUCCESS)
+    if (hashTableStrCtor(&table, hashFuncCRC32) != SUCCESS)
         return ERROR;
 
     if (loadHashTable(&table, SRC_FILE) != SUCCESS)
