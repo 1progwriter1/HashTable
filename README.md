@@ -19,23 +19,19 @@
 ## Часть 1: Сравнение хэш-функций
 
 <figure>
-<img src="Images/charts/merged_3:3.png">
-</figure>
-
-<figure>
-<img src="Images/charts/hash_func_1.png" width=400>
+<img src="Images/charts/merge_2:5.png">
 </figure>
 
 ### Исходники графиков
-- [return 0](Images/charts/hash_func_1.png)
-- [return int(word[0])](Images/charts/hash_func_2.png)
-- [return  len(word)](Images/charts/hash_func_3.png)
-- [return sum_ASCII(word) size=101](Images/charts/hash_func_4_101.png)
-- [return sum_ASCII(word)](Images/charts/hash_func_4.png)
-- [return ror(hash(n - 1)) * int(word[n])](Images/charts/hash_func_5.png)
-- [return rol(hash(n - 1)) * int(word[n])](Images/charts/hash_func_6.png)
-- [return djb2(word)](Images/charts/hash_func_7.png)
-- [return crc32(word)](Images/charts/hash_func_8.png)
+- [1. return 0](Images/charts/hash_func_1.png)
+- [2. return int(word[0])](Images/charts/hash_func_2.png)
+- [3. return  len(word)](Images/charts/hash_func_3.png)
+- [4. return sum_ASCII(word) size=101](Images/charts/hash_func_4_101.png)
+- [5. return sum_ASCII(word)](Images/charts/hash_func_4.png)
+- [6. return ror(hash(n - 1)) * int(word[n])](Images/charts/hash_func_5.png)
+- [7. return rol(hash(n - 1)) * int(word[n])](Images/charts/hash_func_6.png)
+- [8. return djb2(word)](Images/charts/hash_func_7.png)
+- [9. return crc32(word)](Images/charts/hash_func_8.png)
 
 ### Равномерность распределения
 
@@ -53,7 +49,7 @@
 **Лучшее распределение оказалось у хэш-функции CRC32. В дальнейшем будем использовать ее. К тому же мы сможем оптимизировать её вычисление при помощи SIMD
 инструкции.**
 
-### Трансляция пятой и шестой хэш-функций
+### Трансляция хэш-функций, использующих циклический сдвиг (5, 6)
 
 Компилятор `x86-64 gcc 13.2` на сайте https://godbolt.org/ транслирует код следующим образом
 
@@ -77,6 +73,9 @@
 ```
 
 **При любом уровне оптимизации компилятор использовал при трансляции ассемблерную команду циклического сдвига, но при уровне оптимизации -O0 данные пересылаются из памяти, а при более высоком уровне оптимизации используются только регистры, что эффективнее.**
+
+> [!HISTORY NOTE]
+> Более старые компиляторы (например, `x86 msvc v19.14`) при низком уровне оптимизации не вставляют циклический сдвиг.
 
 ## Часть 2: Что оптимизировать?
 
