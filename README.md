@@ -126,26 +126,29 @@ union Word {
 Но одна из задач работы - использовать все три вида оптимизации, поэтому в учебных целях было проведены следующие попытки ускорения:
 - хэш-функция `return sum(ASCII(word))` оптимизирована при помощи функции, написанной на ассемблере. Прирост производительности: 13.65 / 13.27 * 100% $\approx$ 103%
     <details>
-    <summary>Оптимизированная функция</summary>
-    <br>
-    ```C
-    hashFuncSumASCIIAsm:
-                push rdx
-                xor rax, rax
-    .ascii_loop:
-                cmp byte [rdi], 0x0
-                je .end
-                movsx rdx, byte [rdi]
-                add rax, rdx
-                inc rdi
-                jmp .ascii_loop
-    .end:
-                and rax, 0x7FF
-                pop rdx
-                ret
-
+    <summary>Оптимизированный код</summary>
+    ```assembler
+        hashFuncSumASCIIAsm:
+            push rdx
+            xor rax, rax
+        .ascii_loop:
+            cmp byte [rdi], 0x0
+            je .end
+            movsx rdx, byte [rdi]
+            add rax, rdx
+            inc rdi
+            jmp .ascii_loop
+        .end:
+            and rax, 0x7FF
+            pop rdx
+            ret
     ```
     </details>
 - хэш-функции `rol(hash(n - 1)) * int(word[n])` использована ассемблерная вставка. Прирост производительности: 11.76 / 11.10 * 100%  $\approx$ 106%
+    <details><summary>Cool Dropdown #2</summary>
+
+    More cool text hiding in my dropdown
+
+    </details>
 
 ### КПД = $\frac{2.81}{3} * 1000 \approx 936,67$
