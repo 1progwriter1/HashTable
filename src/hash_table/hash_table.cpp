@@ -63,6 +63,7 @@ int loadHashTable(HashTableStr *table, const char *filename) {
     size_t end = 0;
     while (buf[end] != '\0') {
         if (buf[end] == '\n') {
+            if (end - begin > 32)   return ERROR;
             buf[end] = '\0';
             if (hashTableStrInsert(table, buf + begin) != SUCCESS)
                 return ERROR;
@@ -70,6 +71,7 @@ int loadHashTable(HashTableStr *table, const char *filename) {
         }
         end++;
     }
+    if (end - begin > 32)   return ERROR;
     if (begin < end)
         if (hashTableStrInsert(table, buf + begin) != SUCCESS)
             return ERROR;
