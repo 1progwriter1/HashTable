@@ -150,7 +150,7 @@ union Word {
     <details>
     <summary>Оптимизированная функция</summary>
 
-    ```С
+    ```C
     size_t hashFuncRolAsm(char *str, size_t size) {
 
         assert(str);
