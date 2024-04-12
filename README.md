@@ -23,7 +23,7 @@
 </figure>
 
 <figure>
-<img src="Images/charts/hash_func_1.png" width=500>
+<img src="Images/charts/hash_func_1.png" width=400>
 </figure>
 
 ### Исходники графиков

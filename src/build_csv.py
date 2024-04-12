@@ -16,6 +16,6 @@ plt.bar(data['index'], data['size'], color='red')
 
 plt.xlabel("index")
 plt.ylabel("size")
-plt.title("return 0", size=20)
+plt.title("return 0", size=30)
 
 plt.savefig("Images/charts/hash_func_1.png")
