@@ -127,6 +127,7 @@ union Word {
 - хэш-функция `return sum(ASCII(word))` оптимизирована при помощи функции, написанной на ассемблере. Прирост производительности: 13.65 / 13.27 * 100% $\approx$ 103%
     <details>
     <summary>оптимизированная функция</summary>
+    <b>
 
     ```assembly
     hashFuncSumASCIIAsm:
@@ -145,46 +146,49 @@ union Word {
         ret
     ```
 
+    </b>
     </details>
 - хэш-функции `rol(hash(n - 1)) * int(word[n])` использована ассемблерная вставка. Прирост производительности: 11.76 / 11.10 * 100%  $\approx$ 106%
     <details>
     <summary>оптимизированная функция</summary>
+    <b>
 
     ```C
-        size_t hashFuncRolAsm(char *str, size_t size) {
+    size_t hashFuncRolAsm(char *str, size_t size) {
 
-            assert(str);
+        assert(str);
 
-            size_t hash = 0;
-            __asm__ (
-                ".intel_syntax noprefix\n\t"
+        size_t hash = 0;
+        __asm__ (
+            ".intel_syntax noprefix\n\t"
 
-                "mov rdi, %1\n\t"
-                "mov rdx, %2\n"
-                ".hash_loop:\n\t"
-                "cmp byte ptr [rdi], 0x0\n\t"
-                "je .end_loop\n\t"
-                "mov rax, rdx\n\t"
-                "rol rdx\n\t"
-                "movsx rax, byte ptr [rdi]\n\t"
-                "add rdx, rax\n\t"
-                "inc rdi\n\t"
-                "jmp .hash_loop\n"
-                ".end_loop:\n\t"
-                "and rdx, 0x7FF\n\t"
-                "mov %0, rdx\n\t"
+            "mov rdi, %1\n\t"
+            "mov rdx, %2\n"
+            ".hash_loop:\n\t"
+            "cmp byte ptr [rdi], 0x0\n\t"
+            "je .end_loop\n\t"
+            "mov rax, rdx\n\t"
+            "rol rdx\n\t"
+            "movsx rax, byte ptr [rdi]\n\t"
+            "add rdx, rax\n\t"
+            "inc rdi\n\t"
+            "jmp .hash_loop\n"
+            ".end_loop:\n\t"
+            "and rdx, 0x7FF\n\t"
+            "mov %0, rdx\n\t"
 
-                ".att_syntax\n"
+            ".att_syntax\n"
 
-                :"=r"(hash)
-                :"r"(str) ,"r"(hash)
-                :"%rdx", "%rdi", "%rax"
-            );
+            :"=r"(hash)
+            :"r"(str) ,"r"(hash)
+            :"%rdx", "%rdi", "%rax"
+        );
 
-            return hash;
-        }
+        return hash;
+    }
     ```
 
+    </b>
     </details>
 
 ### КПД = $\frac{2.81}{3} * 1000 \approx 936,67$
