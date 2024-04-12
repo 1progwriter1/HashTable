@@ -10,7 +10,7 @@
 # s = [int(i.replace("load table: ", "")) for i in s]
 # print(sum(s) / len(s))
 
-with open("Results/time/opt_strcmp_crc32.txt") as f:
+with open("Results/time/rol.txt") as f:
     s = [float(i) for i in f.readlines()]
 
 print(sum(s) / len(s))

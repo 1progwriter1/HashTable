@@ -23,11 +23,11 @@ int main(const int argc, const char *argv[]) {
         custom_file = true;
     }
 
-    HashTableStr table = {};
-    if (hashTableStrCtor(&table, hashFuncCRC32fast) != SUCCESS)
-        return ERROR;
-
     clock_t begin = clock();
+
+    HashTableStr table = {};
+    if (hashTableStrCtor(&table, hashFuncRolAsm) != SUCCESS)
+        return ERROR;
 
     if (loadHashTable(&table, SRC_FILE) != SUCCESS)
         return ERROR;
@@ -43,13 +43,13 @@ int main(const int argc, const char *argv[]) {
                 found++;
         }
     }
-    printf("%lu\n", found);
+
+    hashTableStrDtor(&table);
 
     clock_t finish = clock();
     fprintf(fn, "%f\n", (double) (finish - begin) / CLOCKS_PER_SEC);
 
-    hashTableStrDtor(&table);
-
+    printf("%lu\n", found);
     if (custom_file) closeFile(fn);
 
     return SUCCESS;

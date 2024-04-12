@@ -1,6 +1,6 @@
 section .text
 
-global asciiSum
+global hashFuncSumASCIIAsm
 
 ;-------------------------------
 ;Copies value
@@ -8,7 +8,7 @@ global asciiSum
 ;Returns: rax - hash
 ;Destroys: rdi
 ;-------------------------------
-asciiSum:
+hashFuncSumASCIIAsm:
             push rdx
             xor rax, rax
 .ascii_loop:

@@ -29,7 +29,7 @@ int myStrcmp(Word a, Word b);
 size_t hashFuncCRC32fast(char *str, size_t size);
 size_t hashFuncRolAsm(char *str, size_t size);
 
-extern "C" size_t asciiSum(char *str, size_t size);
+extern "C" size_t hashFuncSumASCIIAsm(char *str, size_t size);
 
 size_t hashFuncZero(char *str, size_t size);
 size_t hashFuncLetterASCII(char *str, size_t size);
