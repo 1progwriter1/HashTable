@@ -149,6 +149,7 @@ union Word {
 - хэш-функции `rol(hash(n - 1)) * int(word[n])` использована ассемблерная вставка. Прирост производительности: 11.76 / 11.10 * 100%  $\approx$ 106%
     <details>
     <summary>оптимизированная функция</summary>
+    <br>
 
     ```C
     size_t hashFuncRolAsm(char *str, size_t size) {
@@ -186,14 +187,5 @@ union Word {
     ```
 
     </details>
-
-<details>
-<summary>оптимизированная функция</summary>
-
-```C
-printf("Hello world);
-```
-
-</details>
 
 ### КПД = $\frac{2.81}{3} * 1000 \approx 936,67$
