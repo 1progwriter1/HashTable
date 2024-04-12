@@ -199,6 +199,39 @@ size_t hashFuncRol(char *str, size_t size) {
     return hash % size;
 }
 
+size_t hashFuncRolAsm(char *str, size_t size) {
+
+    assert(str);
+
+    size_t hash = 0;
+    __asm__ (
+        ".intel_syntax noprefix\n\t"
+
+        "mov rdi, %1\n\t"
+        "mov rdx, %2\n"
+        ".hash_loop:\n\t"
+        "cmp byte ptr [rdi], 0x0\n\t"
+        "je .end_loop\n\t"
+        "mov rax, rdx\n\t"
+        "rol rdx\n\t"
+        "movsx rax, byte ptr [rdi]\n\t"
+        "add rdx, rax\n\t"
+        "inc rdi\n\t"
+        "jmp .hash_loop\n"
+        ".end_loop:\n\t"
+        "and rdx, 0x7FF\n\t"
+        "mov %0, rdx\n\t"
+
+        ".att_syntax\n"
+
+        :"=r"(hash)
+        :"r"(str) ,"r"(hash)
+        :"%rdx", "%rdi", "%rax"
+    );
+
+    return hash;
+}
+
 size_t hashFuncDjb2(char *str, size_t size) {
 
     assert(str);
@@ -210,39 +243,6 @@ size_t hashFuncDjb2(char *str, size_t size) {
     }
 
     return hash % size;
-}
-
-size_t hashFuncDjb2Asm(char *str, size_t size) {
-
-    assert(str);
-
-    size_t hash = 5381;
-
-    __asm__ (
-        ".intel_syntax noprefix\n\t"
-
-        "mov rdi, %1\n\t"
-        "mov rsi, %2\n"
-        ".djb2_loop:\n\t"
-        "cmp byte ptr [rdi], 0x0\n\t"
-        "je .end\n\t"
-        "mov rax, rdx\n\t"
-        "shl rax, 5\n\t"
-        "add rsi, rsi\n\t"
-        "add rsi, rax\n\t"
-        "add rsi, byte [rdi]\n\t"
-        "jmp .djb2_loop\n"
-        ".end:\n\t"
-        "mov %0, rdx\n\t"
-
-        ".att_syntax\n"
-
-        :"=r"(hash)
-        :"r"(str) ,"r"(hash)
-        :"%rdx", "%rdi", "%rax"
-    );
-
-    return hash;
 }
 
 inline size_t myRol(size_t num) {

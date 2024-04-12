@@ -27,7 +27,7 @@ int loadHashTable(HashTableStr *table, const char *filename);
 
 int myStrcmp(Word a, Word b);
 size_t hashFuncCRC32fast(char *str, size_t size);
-size_t hashFuncDjb2Asm(char *str, size_t size);
+size_t hashFuncRolAsm(char *str, size_t size);
 
 extern "C" size_t asciiSum(char *str, size_t size);
 
