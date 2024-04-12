@@ -127,7 +127,6 @@ union Word {
 - хэш-функция `return sum(ASCII(word))` оптимизирована при помощи функции, написанной на ассемблере. Прирост производительности: 13.65 / 13.27 * 100% $\approx$ 103%
     <details>
     <summary>оптимизированная функция</summary>
-    <b>
 
     ```assembly
     hashFuncSumASCIIAsm:
@@ -146,12 +145,10 @@ union Word {
         ret
     ```
 
-    </b>
     </details>
 - хэш-функции `rol(hash(n - 1)) * int(word[n])` использована ассемблерная вставка. Прирост производительности: 11.76 / 11.10 * 100%  $\approx$ 106%
     <details>
     <summary>оптимизированная функция</summary>
-    <b>
 
     ```C
     size_t hashFuncRolAsm(char *str, size_t size) {
@@ -188,7 +185,6 @@ union Word {
     }
     ```
 
-    </b>
     </details>
 
 ### КПД = $\frac{2.81}{3} * 1000 \approx 936,67$
