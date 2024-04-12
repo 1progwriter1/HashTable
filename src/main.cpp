@@ -10,7 +10,9 @@
 
 const size_t NUMBER_OF_SEARCHES = 50000;
 
-int main() {
+int main(const int argc, const char *argv[]) {
+
+    if (argc < 2)   return ERROR;
 
     HashTableStr table = {};
     if (hashTableStrCtor(&table, asciiSum) != SUCCESS)
