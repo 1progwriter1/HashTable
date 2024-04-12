@@ -127,7 +127,7 @@ union Word {
 - хэш-функция `return sum(ASCII(word))` оптимизирована при помощи функции, написанной на ассемблере. Прирост производительности: 13.65 / 13.27 * 100% $\approx$ 103%
     <details>
     <summary>Оптимизированный код</summary>
-    ```assembler
+    ```assembly
         hashFuncSumASCIIAsm:
             push rdx
             xor rax, rax
