@@ -187,4 +187,13 @@ union Word {
 
     </details>
 
+<details>
+<summary>оптимизированная функция</summary>
+
+```C
+printf("Hello world);
+```
+
+</details>
+
 ### КПД = $\frac{2.81}{3} * 1000 \approx 936,67$
