@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include "string_list.h"
 
-const size_t HASH_TABLE_SIZE = 101;
+const size_t HASH_TABLE_SIZE = 2048;
 const size_t NUMBER_OF_HASH_FUNC = 8;
 const size_t MAX_WORD_LEN = 32;
 
