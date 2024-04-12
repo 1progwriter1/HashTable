@@ -12,15 +12,20 @@ const size_t NUMBER_OF_PASSES = 50000;
 
 int main(const int argc, const char *argv[]) {
 
-    // if (argc < 2)   return ERROR;
+    assert(argv);
+
+    FILE *fn = stdout;
+    bool custom_file = false;
+    if (argc >= 2) {;
+        const char *filename = argv[1];
+        fn = openFile(filename, APPEND);
+        if (!fn)    return ERROR;
+        custom_file = true;
+    }
 
     HashTableStr table = {};
-    if (hashTableStrCtor(&table, hashFuncRolAsm) != SUCCESS)
+    if (hashTableStrCtor(&table, hashFuncCRC32fast) != SUCCESS)
         return ERROR;
-
-    #ifdef MEASURE
-    unsigned int start = __rdtsc();
-    #endif
 
     clock_t begin = clock();
 
@@ -38,19 +43,14 @@ int main(const int argc, const char *argv[]) {
                 found++;
         }
     }
-
-    #ifdef MEASURE
-    unsigned int end = _rdtsc();
-    printf("main: %u\n", end - start);
-    #endif
-
-    hashTableStrDtor(&table);
-
     printf("%lu\n", found);
 
     clock_t finish = clock();
+    fprintf(fn, "%f\n", (double) (finish - begin) / CLOCKS_PER_SEC);
 
-    printf("%f\n", (double) (finish - begin) / CLOCKS_PER_SEC);
+    hashTableStrDtor(&table);
+
+    if (custom_file) closeFile(fn);
 
     return SUCCESS;
 }
