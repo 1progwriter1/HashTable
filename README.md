@@ -85,6 +85,9 @@
 
 При помощи утилиты `callgrind` определим, какие функции больше всего влияют на время работы хэш-таблицы. (Результаты профилирования [здесь](callgrind))
 
+> [!NOTE]
+> Использование callgrind: `valgrind --tool=callgrind`
+
 <figure>
 <img src="Images/сallgrind/no_opt.png" width=800>
 </figure>
